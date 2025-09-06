@@ -1,26 +1,78 @@
-# algorandmrit
+# 🎲 Algorand Coin Toss Game
 
-## 🧠 Smart Contract Code: DYWZB4KODRB54X7K6FO4LYKNB3ANYRWEVQL3R6XWZB4NJK7YICCSOWQ7PY
+A beginner-friendly **decentralized application (dApp)** built on **Algorand** using **TypeScript smart contracts**.  
+This project demonstrates how to create a simple game on Algorand while keeping the code easy to understand and extend.  
 
-Welcome to your new AlgoKit project!
+---
 
-This is your workspace root. A `workspace` in AlgoKit is an orchestrated collection of standalone projects (backends, smart contracts, frontend apps and etc).
+## 📖 Project Description  
 
-By default, `projects_root_path` parameter is set to `projects`. Which instructs AlgoKit CLI to create a new directory under `projects` directory when new project is instantiated via `algokit init` at the root of the workspace.
+This project is a **coin toss game** deployed as an Algorand smart contract.  
+Users can guess **Heads** or **Tails**, and the contract will generate an outcome.  
+It’s a fun and simple way to learn how to build dApps on Algorand.  
 
-## Getting Started
+---
 
-To get started refer to `README.md` files in respective sub-projects in the `projects` directory.
+## 🚀 What it does  
 
-To learn more about algokit, visit [documentation](https://github.com/algorandfoundation/algokit-cli/blob/main/docs/algokit.md).
+- Players submit a guess: `"Heads"` or `"Tails"`.  
+- The smart contract generates an outcome (`Heads` or `Tails`).  
+- If the player’s guess matches the outcome → **You win! 🎉**  
+- Otherwise → **You lose ❌**  
+- The result of the last coin toss is stored on-chain in **global state**.  
 
-### GitHub Codespaces
+---
 
-To get started execute:
+## ✨ Features  
 
-1. `algokit generate devcontainer` - invoking this command from the root of this repository will create a `devcontainer.json` file with all the configuration needed to run this project in a GitHub codespace. [Run the repository inside a codespace](https://docs.github.com/en/codespaces/getting-started/quickstart) to get started.
-2. `algokit init` - invoke this command inside a github codespace to launch an interactive wizard to guide you through the process of creating a new AlgoKit project
+- 🎲 Simple coin toss game logic  
+- 🔒 Immutable game logic stored on Algorand  
+- 🌍 Tracks the last game result in global state  
+- 🏗️ Beginner-friendly smart contract structure  
+- ⚡ Fast and low-cost execution thanks to Algorand  
 
-Powered by [Copier templates](https://copier.readthedocs.io/en/stable/).
+---
 
+## 📜 Deployed Smart Contract  
+
+**Contract Link**: DYWZB4KODRB54X7K6FO4LYKNB3ANYRWEVQL3R6XWZB4NJK7YICCSOWQ7PY 
+
+---
+
+## 🛠️ Smart Contract Code  
+
+```ts
+//paste your code
+import { Contract, GlobalState } from "@algorandfoundation/algorand-typescript";
+
+// Simple Coin Toss Smart Contract
+export class CoinToss extends Contract {
+
+  // Store last result of the coin toss
+  lastResult = GlobalState<string>({ key: "lastResult", initialValue: "" });
+
+  // Player chooses Heads or Tails
+  toss(guess: string): string {
+    // Generate a "random" coin toss (0 = Heads, 1 = Tails)
+    // NOTE: For real randomness, you would need an oracle or VRF
+    const outcome = Math.floor(Math.random() * 2); 
+
+    let result = outcome === 0 ? "Heads" : "Tails";
+
+    // Save result in global state
+    this.lastResult.value = result;
+
+    // Return win/lose message
+    if (guess === result) {
+      return "You guessed " + guess + " 🎉 Correct!";
+    } else {
+      return "You guessed " + guess + " ❌ Wrong, it was " + result;
+    }
+  }
+
+  // Check the last game result
+  checkLastResult(): string {
+    return this.lastResult.value;
+  }
+}
 ![](pic.png)
