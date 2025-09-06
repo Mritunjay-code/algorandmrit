@@ -1,5 +1,7 @@
 # algorandmrit
 
+## 🧠 Smart Contract Code: DYWZB4KODRB54X7K6FO4LYKNB3ANYRWEVQL3R6XWZB4NJK7YICCSOWQ7PY
+
 Welcome to your new AlgoKit project!
 
 This is your workspace root. A `workspace` in AlgoKit is an orchestrated collection of standalone projects (backends, smart contracts, frontend apps and etc).
